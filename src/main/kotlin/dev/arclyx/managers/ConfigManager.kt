@@ -1,0 +1,104 @@
+package dev.arclyx.managers
+
+import dev.arclyx.HyticInv
+import org.bukkit.configuration.file.FileConfiguration
+
+@Suppress("unused")
+class ConfigManager(
+    private val plugin: HyticInv
+) {
+    private var config: FileConfiguration = plugin.config
+
+    init {
+        plugin.saveDefaultConfig()
+        reload()
+    }
+
+    fun reload() {
+        plugin.reloadConfig()
+        config = plugin.config
+        validateConfig()
+    }
+
+    private fun validateConfig() {
+        val requiredPaths = listOf(
+            "storage.method",
+            "economy.price-per-charge",
+            "economy.max-charges-per-player"
+        )
+
+        for (path in requiredPaths) {
+            if (!config.contains(path)) {
+                plugin.logger.warning("Missing configuration value: $path")
+            }
+        }
+
+        if (getPricePerCharge() <= 0) {
+            plugin.logger.warning("Invalid price-per-charge, must be positive!")
+        }
+
+        if (getMaxCharges() <= 0) {
+            plugin.logger.warning("Invalid max-charges-per-player, must be positive!")
+        }
+    }
+
+    fun getStorageMethod(): String = config.getString("storage.method", "sqlite")?.lowercase() ?: "sqlite"
+
+    fun getMySQLHost(): String = config.getString("storage.mysql.host", "localhost") ?: "localhost"
+    fun getMySQLPort(): Int = config.getInt("storage.mysql.port", 3306)
+    fun getMySQLDatabase(): String = config.getString("storage.mysql.database", "elyinv") ?: "elyinv"
+    fun getMySQLUsername(): String = config.getString("storage.mysql.username", "root") ?: "root"
+    fun getMySQLPassword(): String = config.getString("storage.mysql.password", "password") ?: "password"
+
+    fun getMySQLMaxPoolSize(): Int = config.getInt("storage.mysql.pool.maximum-pool-size", 10)
+    fun getMySQLMinIdle(): Int = config.getInt("storage.mysql.pool.minimum-idle", 2)
+    fun getMySQLConnectionTimeout(): Long = config.getLong("storage.mysql.pool.connection-timeout", 30000)
+    fun getMySQLIdleTimeout(): Long = config.getLong("storage.mysql.pool.idle-timeout", 600000)
+    fun getMySQLMaxLifetime(): Long = config.getLong("storage.mysql.pool.max-lifetime", 1800000)
+
+    fun getSQLitePath(): String {
+        val configPath = config.getString("storage.sqlite.path", "data.db") ?: "data.db"
+        return if (configPath.startsWith("/") || configPath.contains(":")) {
+            configPath
+        } else {
+            "${plugin.dataFolder}/$configPath"
+        }
+    }
+
+    fun getJsonPath(): String {
+        val configPath = config.getString("storage.json.path", "data.json") ?: "data.json"
+        return if (configPath.startsWith("/") || configPath.contains(":")) {
+            configPath
+        } else {
+            "${plugin.dataFolder}/$configPath"
+        }
+    }
+
+    fun getPricePerCharge(): Double = config.getDouble("economy.price-per-charge", 100.0)
+    fun getMaxCharges(): Int = config.getInt("economy.max-charges-per-player", 10)
+
+    fun setPricePerCharge(price: Double) {
+        config.set("economy.price-per-charge", price)
+        plugin.saveConfig()
+    }
+
+    fun setMaxCharges(max: Int) {
+        config.set("economy.max-charges-per-player", max)
+        plugin.saveConfig()
+    }
+
+    fun getMessage(key: String): String {
+        val message = config.getString("messages.$key", "")
+        return if (message.isNullOrEmpty()) {
+            plugin.logger.warning("Missing message: messages.$key")
+            "<red>Missing message: $key</red>"
+        } else {
+            val prefix = config.getString("messages.prefix", "")
+            if (key.startsWith("help-") || key.endsWith("-header") || key.endsWith("-footer") || key == "prefix") {
+                message
+            } else {
+                prefix + message
+            }
+        }
+    }
+}
