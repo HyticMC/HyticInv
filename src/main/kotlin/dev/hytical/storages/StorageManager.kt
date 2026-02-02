@@ -1,11 +1,11 @@
-package dev.arclyx.storages
+package dev.hytical.storages
 
-import dev.arclyx.HyticInv
-import dev.arclyx.managers.ConfigManager
-import dev.arclyx.model.PlayerData
-import dev.arclyx.storages.impl.JsonStorage
-import dev.arclyx.storages.impl.MySQLStorage
-import dev.arclyx.storages.impl.SQLiteStorage
+import dev.hytical.HyticInv
+import dev.hytical.managers.ConfigManager
+import dev.hytical.model.PlayerData
+import dev.hytical.storages.impl.JsonStorage
+import dev.hytical.storages.impl.MySQLStorage
+import dev.hytical.storages.impl.SQLiteStorage
 import org.bukkit.entity.Player
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap

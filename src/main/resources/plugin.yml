@@ -1,6 +1,6 @@
 name: HyticInv
 version: '0.1.0'
-main: dev.arclyx.HyticInv
+main: dev.hytical.HyticInv
 api-version: '1.21'
 authors: [HyticMC, Hytical]
 website: https://guns.lol/Hytical

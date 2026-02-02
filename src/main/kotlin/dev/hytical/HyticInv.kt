@@ -1,9 +1,11 @@
-package dev.arclyx
+package dev.hytical
 
-import dev.arclyx.managers.ConfigManager
-import dev.arclyx.managers.EconomyManager
-import dev.arclyx.messaging.MessageManager
-import dev.arclyx.storages.StorageManager
+import dev.hytical.command.HyticInvCommand
+import dev.hytical.command.HyticInvTabCompleter
+import dev.hytical.managers.ConfigManager
+import dev.hytical.managers.EconomyManager
+import dev.hytical.messaging.MessageManager
+import dev.hytical.storages.StorageManager
 import org.bukkit.plugin.java.JavaPlugin
 
 class HyticInv : JavaPlugin() {
@@ -23,7 +25,7 @@ class HyticInv : JavaPlugin() {
         economyManager = EconomyManager(this)
         if (!economyManager.initialize()) {
             econ = false
-            logger.warning("Economy system unavailable. Purchase commands will be disabled.")
+            logger.warning("Economy system unavailable. Purchase command will be disabled.")
         } else {
             econ = true
         }
@@ -34,9 +36,19 @@ class HyticInv : JavaPlugin() {
             server.pluginManager.disablePlugin(this)
             return
         }
+
+        registerCommand()
     }
 
-    override fun onDisable() {
-        // Plugin shutdown logic
+    override fun onDisable() {}
+
+    private fun registerCommand() {
+        val commandHandler = HyticInvCommand(this, configManager, storageManager, economyManager, messageManager)
+        val tabCompleterHandler = HyticInvTabCompleter()
+
+        getCommand("hyticinv")?.apply {
+            setExecutor(commandHandler)
+            tabCompleter = tabCompleterHandler
+        }
     }
 }

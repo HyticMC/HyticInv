@@ -208,5 +208,5 @@ messages:
   
   # ===== Status Messages =====
   # Used in the info display to show protection status
-  status-enabled: '<green>✓ Enabled</green>'
-  status-disabled: '<red>✗ Disabled</red>'
+  status-enabled: '<green>Enabled</green>'
+  status-disabled: '<red>Disabled</red>'

@@ -1,7 +1,7 @@
-package dev.arclyx.managers
+package dev.hytical.managers
 
-import dev.arclyx.HyticInv
-import dev.arclyx.storages.StorageType
+import dev.hytical.HyticInv
+import dev.hytical.storages.StorageType
 import org.bukkit.configuration.file.FileConfiguration
 
 @Suppress("unused")

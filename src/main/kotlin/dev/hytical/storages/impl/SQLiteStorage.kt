@@ -1,9 +1,9 @@
-package dev.arclyx.storages.impl
+package dev.hytical.storages.impl
 
-import dev.arclyx.HyticInv
-import dev.arclyx.managers.ConfigManager
-import dev.arclyx.model.PlayerData
-import dev.arclyx.storages.StorageBackend
+import dev.hytical.HyticInv
+import dev.hytical.managers.ConfigManager
+import dev.hytical.model.PlayerData
+import dev.hytical.storages.StorageBackend
 import java.io.File
 import java.sql.Connection
 import java.sql.DriverManager

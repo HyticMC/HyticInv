@@ -1,7 +1,7 @@
-package dev.arclyx.messaging
+package dev.hytical.messaging
 
-import dev.arclyx.HyticInv
-import dev.arclyx.managers.ConfigManager
+import dev.hytical.HyticInv
+import dev.hytical.managers.ConfigManager
 import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage

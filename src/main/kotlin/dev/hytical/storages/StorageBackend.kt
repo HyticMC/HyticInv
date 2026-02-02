@@ -1,6 +1,6 @@
-package dev.arclyx.storages
+package dev.hytical.storages
 
-import dev.arclyx.model.PlayerData
+import dev.hytical.model.PlayerData
 import java.util.UUID
 
 interface StorageBackend {

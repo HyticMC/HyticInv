@@ -1,4 +1,4 @@
-package dev.arclyx.model
+package dev.hytical.model
 
 import java.util.UUID
 

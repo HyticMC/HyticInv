@@ -1,4 +1,4 @@
-package dev.arclyx.storages
+package dev.hytical.storages
 
 enum class StorageType {
     SQLITE, MYSQL, JSON;

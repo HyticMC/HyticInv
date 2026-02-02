@@ -1,6 +1,6 @@
-package dev.arclyx.managers
+package dev.hytical.managers
 
-import dev.arclyx.HyticInv
+import dev.hytical.HyticInv
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.OfflinePlayer
 import org.bukkit.plugin.RegisteredServiceProvider

@@ -1,4 +1,4 @@
-package dev.arclyx.utils
+package dev.hytical.utils
 
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
