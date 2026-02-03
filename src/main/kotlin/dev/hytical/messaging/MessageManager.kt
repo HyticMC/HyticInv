@@ -2,7 +2,6 @@ package dev.hytical.messaging
 
 import dev.hytical.HyticInv
 import dev.hytical.managers.ConfigManager
-import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver
@@ -13,29 +12,22 @@ class MessageManager(
     private val plugin: HyticInv,
     private val configManager: ConfigManager
 ) {
-    private lateinit var audiences: BukkitAudiences
-    private val miniMessage: MiniMessage = MiniMessage.builder().build()
-
-    fun initialize() {
-        audiences = BukkitAudiences.builder(plugin).build()
-    }
+    private val miniMessage: MiniMessage = MiniMessage.miniMessage()
 
     fun shutdown() {
-        if (::audiences.isInitialized) {
-            audiences.close()
-        }
+        // No cleanup needed - Paper provides Adventure natively
     }
 
     fun sendMessage(sender: CommandSender, messageKey: String, vararg resolvers: TagResolver) {
         val rawMessage = configManager.getMessage(messageKey)
         val component = parseMessage(rawMessage, *resolvers)
-        audiences.sender(sender).sendMessage(component)
+        sender.sendMessage(component)
     }
 
     fun sendMessage(player: Player, messageKey: String, vararg resolvers: TagResolver) {
         val rawMessage = configManager.getMessage(messageKey)
         val component = parseMessage(rawMessage, *resolvers)
-        audiences.player(player).sendMessage(component)
+        player.sendMessage(component)
     }
 
     fun parseMessage(message: String, vararg resolvers: TagResolver): Component {
@@ -48,6 +40,6 @@ class MessageManager(
 
     fun sendRawMessage(sender: CommandSender, message: String) {
         val component = miniMessage.deserialize(message)
-        audiences.sender(sender).sendMessage(component)
+        sender.sendMessage(component)
     }
 }

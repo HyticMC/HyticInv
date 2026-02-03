@@ -9,11 +9,9 @@ interface StorageBackend {
 
     fun close()
 
-    fun loadPlayerData(uuid: UUID): PlayerData?
+    suspend fun loadPlayerData(uuid: UUID): PlayerData?
 
-    fun savePlayerData(playerData: PlayerData)
-
-    fun savePlayerDataAsync(playerData: PlayerData)
+    suspend fun savePlayerData(playerData: PlayerData)
 
     fun isHealthy(): Boolean
 

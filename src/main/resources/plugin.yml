@@ -1,17 +1,23 @@
 name: HyticInv
-version: '0.1.0'
+version: '${project.version}'
 main: dev.hytical.HyticInv
 api-version: '1.21'
+folia-supported: true
 authors: [HyticMC, Hytical]
 website: https://guns.lol/Hytical
+description: Inventory protection plugin with economy integration
 
 softdepend:
   - Vault
   - PlaceholderAPI
 
+libraries:
+  - org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.1
+  - com.zaxxer:HikariCP:5.1.0
+
 commands:
   hyticinv:
-    description: Main ElyInv command
+    description: Main HyticInv command
     usage: /<command> <buy|toggle|info|set|setprice|setmax|reload|help> [args]
     aliases:
       - inv

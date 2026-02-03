@@ -7,11 +7,14 @@ import dev.hytical.HyticInv
 import dev.hytical.managers.ConfigManager
 import dev.hytical.model.PlayerData
 import dev.hytical.storages.StorageBackend
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
-import java.util.*
-import java.util.concurrent.CompletableFuture
+import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
 class JsonStorage(
@@ -21,6 +24,7 @@ class JsonStorage(
 
     private val gson: Gson = GsonBuilder().setPrettyPrinting().create()
     private val dataMap = ConcurrentHashMap<UUID, PlayerData>()
+    private val fileMutex = Mutex()
     private val jsonFile: File by lazy {
         File(configManager.getJsonPath())
     }
@@ -33,7 +37,7 @@ class JsonStorage(
                 loadFromFile()
             } else {
                 jsonFile.createNewFile()
-                saveToFile()
+                saveToFileSync()
             }
 
             plugin.logger.info("JSON storage initialized successfully at ${jsonFile.absolutePath}")
@@ -66,7 +70,7 @@ class JsonStorage(
         }
     }
 
-    private fun saveToFile() {
+    private fun saveToFileSync() {
         try {
             val dataToSave = dataMap.map { (uuid, data) ->
                 uuid.toString() to data
@@ -80,24 +84,23 @@ class JsonStorage(
         }
     }
 
-    override fun loadPlayerData(uuid: UUID): PlayerData? {
-        return dataMap[uuid]
-    }
-
-    override fun savePlayerData(playerData: PlayerData) {
-        dataMap[playerData.uuid] = playerData
-        saveToFile()
-    }
-
-    override fun savePlayerDataAsync(playerData: PlayerData) {
-        dataMap[playerData.uuid] = playerData
-        CompletableFuture.runAsync {
-            saveToFile()
+    private suspend fun saveToFile() = withContext(Dispatchers.IO) {
+        fileMutex.withLock {
+            saveToFileSync()
         }
     }
 
-    override fun close() {
+    override suspend fun loadPlayerData(uuid: UUID): PlayerData? {
+        return dataMap[uuid]
+    }
+
+    override suspend fun savePlayerData(playerData: PlayerData) {
+        dataMap[playerData.uuid] = playerData
         saveToFile()
+    }
+
+    override fun close() {
+        saveToFileSync()
         plugin.logger.info("JSON storage closed")
     }
 

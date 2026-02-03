@@ -13,7 +13,7 @@
 # If the selected method fails, the plugin will automatically try the next available option.
 storage:
   # Storage method to use: mysql, sqlite, or json
-  method: mysql
+  method: sqlite
   
   # MySQL Database Configuration
   # Requires MySQL 5.7+ or MariaDB 10.2+
@@ -92,7 +92,7 @@ economy:
 # For more formatting options, visit: https://docs.advntr.dev/minimessage/format.html
 messages:
   # Global prefix added to most messages
-  prefix: '<gradient:#00d4ff:#0099ff><bold>hyticinv</bold></gradient> <dark_gray>»</dark_gray> '
+  prefix: '<gradient:#00d4ff:#0099ff><bold>[ hyticinv ]</bold></gradient> <dark_gray>»</dark_gray> '
   
   # ===== Purchase Messages =====
   # Shown when a player successfully purchases charges

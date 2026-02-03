@@ -6,10 +6,11 @@ import dev.hytical.HyticInv
 import dev.hytical.managers.ConfigManager
 import dev.hytical.model.PlayerData
 import dev.hytical.storages.StorageBackend
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.sql.Connection
 import java.sql.ResultSet
 import java.util.UUID
-import java.util.concurrent.CompletableFuture
 
 class MySQLStorage(
     private val plugin: HyticInv,
@@ -44,7 +45,7 @@ class MySQLStorage(
                 addDataSourceProperty("elideSetAutoCommits", "true")
                 addDataSourceProperty("maintainTimeStats", "false")
 
-                poolName = "ElyInv-MySQL-Pool"
+                poolName = "HyticInv-MySQL-Pool"
             }
 
             dataSource = HikariDataSource(config)
@@ -63,7 +64,7 @@ class MySQLStorage(
             conn.createStatement().use { stmt ->
                 stmt.executeUpdate(
                     """
-                    CREATE TABLE IF NOT EXISTS elyinv_players (
+                    CREATE TABLE IF NOT EXISTS hyticinv_players (
                         uuid VARCHAR(36) PRIMARY KEY,
                         username VARCHAR(16) NOT NULL,
                         charges INT NOT NULL DEFAULT 0,
@@ -83,14 +84,14 @@ class MySQLStorage(
         return dataSource?.connection ?: throw IllegalStateException("DataSource is not initialized")
     }
 
-    override fun loadPlayerData(uuid: UUID): PlayerData? {
-        return try {
+    override suspend fun loadPlayerData(uuid: UUID): PlayerData? = withContext(Dispatchers.IO) {
+        try {
             getConnection().use { conn ->
                 conn.prepareStatement(
                     """
                     SELECT uuid, username, charges, protection_enabled, 
                            total_charges_purchased, protection_activations
-                    FROM elyinv_players WHERE uuid = ?
+                    FROM hyticinv_players WHERE uuid = ?
                 """.trimIndent()
                 ).use { stmt ->
                     stmt.setString(1, uuid.toString())
@@ -109,12 +110,12 @@ class MySQLStorage(
         }
     }
 
-    override fun savePlayerData(playerData: PlayerData) {
+    override suspend fun savePlayerData(playerData: PlayerData): Unit = withContext(Dispatchers.IO) {
         try {
             getConnection().use { conn ->
                 conn.prepareStatement(
                     """
-                    INSERT INTO elyinv_players (uuid, username, charges, protection_enabled, 
+                    INSERT INTO hyticinv_players (uuid, username, charges, protection_enabled, 
                                                 total_charges_purchased, protection_activations)
                     VALUES (?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE
@@ -136,12 +137,6 @@ class MySQLStorage(
             }
         } catch (e: Exception) {
             plugin.logger.severe("Failed to save player data for ${playerData.uuid}: ${e.message}")
-        }
-    }
-
-    override fun savePlayerDataAsync(playerData: PlayerData) {
-        CompletableFuture.runAsync {
-            savePlayerData(playerData)
         }
     }
 

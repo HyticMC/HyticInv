@@ -6,9 +6,17 @@ import dev.hytical.model.PlayerData
 import dev.hytical.storages.impl.JsonStorage
 import dev.hytical.storages.impl.MySQLStorage
 import dev.hytical.storages.impl.SQLiteStorage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
 import org.bukkit.entity.Player
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.time.Duration.Companion.seconds
 
 class StorageManager(
     private val plugin: HyticInv,
@@ -16,12 +24,13 @@ class StorageManager(
 ) {
     private var currentBackend: StorageBackend? = null
     private val globalCache = ConcurrentHashMap<UUID, PlayerData>()
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     fun initialize(): Boolean {
-        val preferedMethod = configManager.getStorageMethod()
-        plugin.logger.info("Attempting to initialize storage with method: $preferedMethod")
+        val preferredMethod = configManager.getStorageMethod()
+        plugin.logger.info("Attempting to initialize storage with method: $preferredMethod")
 
-        val backends = when(preferedMethod) {
+        val backends = when (preferredMethod) {
             StorageType.MYSQL -> listOf(
                 { MySQLStorage(plugin, configManager) },
                 { SQLiteStorage(plugin, configManager) },
@@ -36,19 +45,11 @@ class StorageManager(
             StorageType.JSON -> listOf(
                 { JsonStorage(plugin, configManager) }
             )
-
-            else -> {
-                plugin.logger.warning("Unknown storage method '${preferedMethod.name}', defaulting to SQLite")
-                listOf(
-                    { SQLiteStorage(plugin, configManager) },
-                    { JsonStorage(plugin, configManager) }
-                )
-            }
         }
 
-        for(backendFactory in backends) {
+        for (backendFactory in backends) {
             val backend = backendFactory()
-            if(backend.initialize()) {
+            if (backend.initialize()) {
                 currentBackend = backend
                 plugin.logger.info("Successfully initialized ${backend.getName()} storage")
                 return true
@@ -67,32 +68,53 @@ class StorageManager(
 
     fun getPlayerData(uuid: UUID, username: String): PlayerData {
         return globalCache.getOrPut(uuid) {
-            currentBackend?.loadPlayerData(uuid) ?: PlayerData(uuid, username)
+            runBlocking {
+                currentBackend?.loadPlayerData(uuid)
+            } ?: PlayerData(uuid, username)
         }
     }
 
     fun savePlayerData(playerData: PlayerData, async: Boolean = true) {
         globalCache[playerData.uuid] = playerData
         if (async) {
-            currentBackend?.savePlayerDataAsync(playerData)
+            scope.launch {
+                currentBackend?.savePlayerData(playerData)
+            }
         } else {
-            currentBackend?.savePlayerData(playerData)
+            runBlocking {
+                currentBackend?.savePlayerData(playerData)
+            }
         }
     }
 
     fun saveAll(async: Boolean = false) {
-        globalCache.values.forEach { playerData ->
-            if (async) {
-                currentBackend?.savePlayerDataAsync(playerData)
-            } else {
-                currentBackend?.savePlayerData(playerData)
+        if (async) {
+            globalCache.values.forEach { playerData ->
+                scope.launch {
+                    currentBackend?.savePlayerData(playerData)
+                }
+            }
+        } else {
+            runBlocking {
+                globalCache.values.forEach { playerData ->
+                    currentBackend?.savePlayerData(playerData)
+                }
             }
         }
     }
 
     fun shutdown() {
         plugin.logger.info("Saving all cached player data...")
-        saveAll(async = false)
+
+        runBlocking {
+            withTimeoutOrNull(10.seconds) {
+                globalCache.values.forEach { playerData ->
+                    currentBackend?.savePlayerData(playerData)
+                }
+            } ?: plugin.logger.warning("Shutdown save timed out after 10 seconds")
+        }
+
+        scope.cancel()
         currentBackend?.close()
         globalCache.clear()
     }
@@ -107,7 +129,6 @@ class StorageManager(
 
     fun reload(): Boolean {
         shutdown()
-        globalCache.clear()
         return initialize()
     }
 }

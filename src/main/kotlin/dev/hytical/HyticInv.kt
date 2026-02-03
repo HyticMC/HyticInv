@@ -5,30 +5,44 @@ import dev.hytical.command.HyticInvTabCompleter
 import dev.hytical.listeners.PlayerDeath
 import dev.hytical.managers.ConfigManager
 import dev.hytical.managers.EconomyManager
+import dev.hytical.managers.SchedulerManager
 import dev.hytical.messaging.MessageManager
 import dev.hytical.storages.StorageManager
 import org.bukkit.plugin.java.JavaPlugin
 
 class HyticInv : JavaPlugin() {
-    private var econ: Boolean = false
+    private var economyEnabled: Boolean = false
 
-    private lateinit var configManager: ConfigManager
-    private lateinit var messageManager: MessageManager
-    private lateinit var economyManager: EconomyManager
-    private lateinit var storageManager: StorageManager
+    lateinit var configManager: ConfigManager
+        private set
+    lateinit var messageManager: MessageManager
+        private set
+    lateinit var economyManager: EconomyManager
+        private set
+    lateinit var storageManager: StorageManager
+        private set
+    lateinit var schedulerManager: SchedulerManager
+        private set
 
     override fun onEnable() {
+        schedulerManager = SchedulerManager(this)
+
+        if (schedulerManager.isFolia) {
+            logger.info("Running on Folia - region-safe scheduling enabled")
+        } else {
+            logger.info("Running on Paper/Spigot - standard scheduling enabled")
+        }
+
         configManager = ConfigManager(this)
 
         messageManager = MessageManager(this, configManager)
-        messageManager.initialize()
 
         economyManager = EconomyManager(this)
         if (!economyManager.initialize()) {
-            econ = false
+            economyEnabled = false
             logger.warning("Economy system unavailable. Purchase command will be disabled.")
         } else {
-            econ = true
+            economyEnabled = true
         }
 
         storageManager = StorageManager(this, configManager)
@@ -38,12 +52,25 @@ class HyticInv : JavaPlugin() {
             return
         }
 
-        registerCommand()
+        registerCommands()
+        registerEvents()
+
+        logger.info("HyticInv v${description.version} enabled successfully!")
     }
 
-    override fun onDisable() {}
+    override fun onDisable() {
+        if (::storageManager.isInitialized) {
+            storageManager.shutdown()
+        }
 
-    private fun registerCommand() {
+        if (::messageManager.isInitialized) {
+            messageManager.shutdown()
+        }
+
+        logger.info("HyticInv disabled.")
+    }
+
+    private fun registerCommands() {
         val commandHandler = HyticInvCommand(
             this,
             configManager,
@@ -59,7 +86,7 @@ class HyticInv : JavaPlugin() {
         }
     }
 
-    private fun registerEvent() {
+    private fun registerEvents() {
         val playerDeath = PlayerDeath(
             this,
             configManager,
@@ -69,4 +96,6 @@ class HyticInv : JavaPlugin() {
 
         server.pluginManager.registerEvents(playerDeath, this)
     }
+
+    fun isEconomyEnabled(): Boolean = economyEnabled
 }
