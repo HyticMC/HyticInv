@@ -90,6 +90,7 @@ class ConfigManager(
         plugin.saveConfig()
     }
 
+    fun isPrefixEnabled(): Boolean = config.getBoolean("messages.enable-prefix", true)
     fun getPrefix(): String = config.getString("messages.prefix", "") ?: ""
 
     fun getMessage(key: String): String {

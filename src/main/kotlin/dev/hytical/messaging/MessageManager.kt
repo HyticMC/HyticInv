@@ -25,7 +25,7 @@ class MessageManager(
 
     fun sendMessage(sender: CommandSender, messageKey: String, placeholders: Map<String, String> = emptyMap()) {
         val rawMessage = configManager.getMessage(messageKey)
-        val shouldAddPrefix = sender is Player && !noPrefixKeys.contains(messageKey)
+        val shouldAddPrefix = configManager.isPrefixEnabled() && sender is Player && !noPrefixKeys.contains(messageKey)
         val fullMessage = if (shouldAddPrefix) configManager.getPrefix() + rawMessage else rawMessage
         val resolvedMessage = replacePlaceholders(fullMessage, placeholders)
         val component = parseMessage(resolvedMessage)
@@ -34,7 +34,7 @@ class MessageManager(
 
     fun sendMessage(player: Player, messageKey: String, placeholders: Map<String, String> = emptyMap()) {
         val rawMessage = configManager.getMessage(messageKey)
-        val shouldAddPrefix = !noPrefixKeys.contains(messageKey)
+        val shouldAddPrefix = configManager.isPrefixEnabled() && !noPrefixKeys.contains(messageKey)
         val fullMessage = if (shouldAddPrefix) configManager.getPrefix() + rawMessage else rawMessage
         val resolvedMessage = replacePlaceholders(fullMessage, placeholders)
         val component = parseMessage(resolvedMessage)

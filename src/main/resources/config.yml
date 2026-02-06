@@ -27,6 +27,7 @@ economy:
   max-charges-per-player: 10
 
 messages:
+  enable-prefix: true
   prefix: "<gradient:#00d4ff:#0099ff><bold>[ʜʏᴛɪᴄɪɴᴠ]</bold></gradient> <dark_gray>»</dark_gray> <white>"
   
   # Purchase
