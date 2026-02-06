@@ -6,7 +6,7 @@
 
   <groupId>dev.hytical</groupId>
   <artifactId>HyticInv</artifactId>
-  <version>0.2.0</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
   <name>HyticInv</name>
