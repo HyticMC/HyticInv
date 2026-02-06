@@ -6,7 +6,9 @@ import dev.hytical.managers.ConfigManager
 import dev.hytical.managers.EconomyManager
 import dev.hytical.managers.SchedulerManager
 import dev.hytical.messaging.MessageManager
+import dev.hytical.metrics.EnvironmentDetector
 import dev.hytical.metrics.MetricsManager
+import dev.hytical.metrics.ServerType
 import dev.hytical.storages.StorageManager
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.plugin.java.JavaPlugin
@@ -29,6 +31,17 @@ class HyticInv : JavaPlugin() {
         private set
 
     override fun onEnable() {
+        val serverType = EnvironmentDetector.detect()
+        if (serverType == ServerType.SPIGOT || serverType == ServerType.UNKNOWN) {
+            logger.severe("═══════════════════════════════════════════════════════════════")
+            logger.severe("HyticInv requires Paper or Folia to run.")
+            logger.severe("Spigot and other server software are not supported.")
+            logger.severe("Please upgrade to Paper: https://papermc.io/downloads/paper")
+            logger.severe("═══════════════════════════════════════════════════════════════")
+            server.pluginManager.disablePlugin(this)
+            return
+        }
+
         schedulerManager = SchedulerManager(this)
 
         if (schedulerManager.isFolia) {

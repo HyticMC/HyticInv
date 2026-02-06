@@ -7,6 +7,7 @@ object EnvironmentDetector {
 
     private fun detectInternal(): ServerType = when {
         classExists("io.papermc.paper.threadedregions.RegionizedServer") -> ServerType.FOLIA
+        classExists("io.papermc.paper.configuration.Configuration") -> ServerType.PAPER
         classExists("com.destroystokyo.paper.PaperConfig") -> ServerType.PAPER
         classExists("org.spigotmc.SpigotConfig") -> ServerType.SPIGOT
         else -> ServerType.UNKNOWN
