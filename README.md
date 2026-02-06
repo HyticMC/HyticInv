@@ -72,6 +72,67 @@ Customize all user-facing messages.
 *   `prefix`: The prefix to be displayed before messages.
 *   All other keys correspond to specific messages for commands, events, and errors. These messages support the [MiniMessage](https://docs.adventure.kyori.net/minimessage/format.html) format for advanced color and style formatting.
 
+## Metrics Collection
+
+This plugin uses [bStats](https://bstats.org/) to collect anonymous usage statistics. This helps the developers understand how the plugin is used and identify areas for improvement.
+
+**To disable metrics collection:**
+
+1. Open `plugins/HyticInv/config.yml`
+2. Find the metrics section:
+```yaml
+metrics:
+  enabled: false
+```
+3. Restart your server
+
+## Building from Source
+
+### Prerequisites
+
+- **Java 21 JDK**
+- **Apache Maven 3.9+**
+- **Git**
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/HyticMC/HyticInv.git
+cd HyticInv
+```
+
+### 2. Build with Maven
+
+```bash
+mvn clean package
+```
+
+### 3. Locate the output
+
+The compiled plugin JAR file will be generated in:
+
+```
+target/HyticInv-*.jar
+```
+
+### 4. Install to server
+
+1. Copy the JAR file to your server's `plugins/` directory
+2. Restart or reload your server
+
+### For Development
+
+- Clean build: `mvn clean install`
+- Skip tests: `mvn clean package -DskipTests`
+- Build only: `mvn compile`
+- Package without tests: `mvn package -DskipTests`
+
+### Common Issues
+
+- **Java version error**: Ensure JAVA_HOME points to Java 21+
+- **Dependency errors**: Run `mvn clean install -U` to update dependencies
+- **Build failure**: Check Maven and Java versions meet requirements
+
 ## License
 
 This project is licensed under the GNU General Public License v3.0. Please see the `LICENSE` file for more details.

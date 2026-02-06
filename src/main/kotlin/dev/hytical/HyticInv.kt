@@ -6,13 +6,20 @@ import dev.hytical.managers.ConfigManager
 import dev.hytical.managers.EconomyManager
 import dev.hytical.managers.SchedulerManager
 import dev.hytical.messaging.MessageManager
+import dev.hytical.metrics.EnvironmentDetector
+import dev.hytical.metrics.MetricsManager
+import dev.hytical.metrics.ServerType
 import dev.hytical.storages.StorageManager
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.plugin.java.JavaPlugin
 
 class HyticInv : JavaPlugin() {
+    private val pluginId: Int = 29351
     private var economyEnabled: Boolean = false
 
     lateinit var configManager: ConfigManager
+        private set
+    lateinit var metricsManager: MetricsManager
         private set
     lateinit var messageManager: MessageManager
         private set
@@ -24,15 +31,29 @@ class HyticInv : JavaPlugin() {
         private set
 
     override fun onEnable() {
+        val serverType = EnvironmentDetector.detect()
+        if (serverType == ServerType.SPIGOT || serverType == ServerType.UNKNOWN) {
+            logger.severe("═══════════════════════════════════════════════════════════════")
+            logger.severe("HyticInv requires Paper or Folia to run.")
+            logger.severe("Spigot and other server software are not supported.")
+            logger.severe("Please upgrade to Paper: https://papermc.io/downloads/paper")
+            logger.severe("═══════════════════════════════════════════════════════════════")
+            server.pluginManager.disablePlugin(this)
+            return
+        }
+
         schedulerManager = SchedulerManager(this)
 
         if (schedulerManager.isFolia) {
             logger.info("Running on Folia - region-safe scheduling enabled")
         } else {
-            logger.info("Running on Paper/Spigot - standard scheduling enabled")
+            logger.info("Running on Paper - standard scheduling enabled")
         }
 
         configManager = ConfigManager(this)
+
+        metricsManager = MetricsManager(this, pluginId)
+        metricsManager.start()
 
         messageManager = MessageManager(this, configManager)
 
@@ -54,7 +75,8 @@ class HyticInv : JavaPlugin() {
         registerCommands()
         registerEvents()
 
-        logger.info("HyticInv v${description.version} enabled successfully!")
+        logger.info("HyticInv v${this.pluginMeta.version} enabled successfully!")
+        sendStartupLog()
     }
 
     override fun onDisable() {
@@ -93,6 +115,23 @@ class HyticInv : JavaPlugin() {
         )
 
         server.pluginManager.registerEvents(playerDeath, this)
+    }
+
+    private fun sendStartupLog() {
+        val log = listOf(
+            "",
+            " &bʜʏᴛɪᴄɪɴᴠ &7ᴠ${pluginMeta.version}",
+            " &8--------------------------------------",
+            " &cɪɴꜰᴏʀᴍᴀᴛɪᴏɴ",
+            "&7   • &fɴᴀᴍᴇ: &bʜʏᴛɪᴄɪɴᴠ",
+            "&7   • &fᴀᴜᴛʜᴏʀ: &bʜʏᴛɪᴄᴍᴄ",
+            " &8--------------------------------------",
+            ""
+        ).forEach {
+            server.consoleSender.sendMessage(
+                LegacyComponentSerializer.legacyAmpersand().deserialize(it)
+            )
+        }
     }
 
     fun isEconomyEnabled(): Boolean = economyEnabled
