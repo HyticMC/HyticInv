@@ -23,6 +23,16 @@ jobs:
         distribution: 'temurin'
         java-version: '21'
         cache: 'maven'
+
+    - name: Debug Java Version
+      run: |
+        echo "=== Java Info ==="
+        java --version
+        which java
+        ls -la $(which java)
+        echo "JAVA_HOME: $JAVA_HOME"
+        ls -la $JAVA_HOME
+        echo "================="
         
     - run: mvn -B clean package
       
