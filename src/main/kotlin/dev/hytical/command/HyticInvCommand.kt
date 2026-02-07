@@ -32,6 +32,7 @@ class HyticInvCommand(
             put("setmax", SetMaxSubCommand())
             put("reload", ReloadSubCommand())
             put("help", HelpSubCommand { subcommands })
+            put("version", HytivVersion(plugin))
         }
     }
 
