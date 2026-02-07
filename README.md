@@ -135,4 +135,11 @@ target/HyticInv-*.jar
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0. Please see the `LICENSE` file for more details.
+This project is licensed under the **GNU General Public License v3.0**.  
+In short: you can use, modify, and distribute this plugin freely,  
+as long as you keep it open and free for others too.
+
+> *"Free software is a matter of liberty, not price."*  
+> — Richard Stallman
+
+For full legal details, see the [LICENSE](LICENSE) file.
