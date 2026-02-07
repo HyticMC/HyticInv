@@ -3,6 +3,11 @@ name: CI
 on:
   push:
     branches: [ "main", "dev" ]
+    paths-ignore:
+      - '**/*.md'
+      - '**/.gitignore'
+      - 'LICENSE'
+      - '**/*.txt'
   pull_request:
     branches: [ "main" ]
 
@@ -10,26 +15,37 @@ jobs:
   build:
     name: Build (Maven, Java 21)
     runs-on: ubuntu-latest
+    
+    if: |
+      !contains(github.event.head_commit.message, '[skip ci]') &&
+      !contains(github.event.head_commit.message, '[ci skip]')
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
-
-      - name: Set up Temurin JDK 21
-        uses: actions/setup-java@v4
         with:
-          distribution: temurin
-          java-version: "21"
-          cache: maven
+          fetch-depth: 0
 
-      - name: Verify Maven wrapper
-        run: mvn -v
+      - name: Check for relevant changes
+        id: changes
+        run: |
+          if git diff --name-only HEAD~1 HEAD | grep -E '\.(kt|java|xml|yml|yaml|json)$' | grep -v '.md' > /dev/null; then
+            echo "has_code_changes=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_code_changes=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Build with Maven
+        if: steps.changes.outputs.has_code_changes == 'true'
         run: mvn -B clean package --file pom.xml
 
       - name: Upload build artifacts
+        if: steps.changes.outputs.has_code_changes == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: HyticInv-CI.jar
           path: target/*.jar
+          
+      - name: Skip build notice
+        if: steps.changes.outputs.has_code_changes == 'false'
+        run: echo "🔄 No source code changes detected. Skipping build."
