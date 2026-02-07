@@ -94,12 +94,12 @@ class ConfigManager(
     fun getPrefix(): String = config.getString("messages.prefix", "") ?: ""
 
     fun getMessage(key: String): String {
-        val message = config.getString("messages.$key", "")
-        return if (message.isNullOrEmpty()) {
-            plugin.logger.warning("Missing message: messages.$key")
-            "<red>Missing message: $key</red>"
-        } else {
-            message
+        return when (val message = config.getString("messages.$key")) {
+            null -> {
+                plugin.logger.warning("Missing message: messages.$key")
+                "<red>Missing message: $key</red>"
+            }
+            else -> message
         }
     }
 

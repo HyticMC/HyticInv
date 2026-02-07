@@ -10,6 +10,7 @@ import dev.hytical.metrics.EnvironmentDetector
 import dev.hytical.metrics.MetricsManager
 import dev.hytical.metrics.ServerType
 import dev.hytical.storages.StorageManager
+import dev.hytical.utils.BuildInfo
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -17,6 +18,8 @@ class HyticInv : JavaPlugin() {
     private val pluginId: Int = 29351
     private var economyEnabled: Boolean = false
 
+    lateinit var buildInfo: BuildInfo
+        private set
     lateinit var configManager: ConfigManager
         private set
     lateinit var metricsManager: MetricsManager
@@ -41,6 +44,8 @@ class HyticInv : JavaPlugin() {
             server.pluginManager.disablePlugin(this)
             return
         }
+
+        buildInfo = BuildInfo(this)
 
         schedulerManager = SchedulerManager(this)
 
@@ -120,7 +125,7 @@ class HyticInv : JavaPlugin() {
     private fun sendStartupLog() {
         val log = listOf(
             "",
-            " &bʜʏᴛɪᴄɪɴᴠ &7ᴠ${pluginMeta.version}",
+            " &bʜʏᴛɪᴄɪɴᴠ &7ᴠ${buildInfo.buildVersion}",
             " &8--------------------------------------",
             " &cɪɴꜰᴏʀᴍᴀᴛɪᴏɴ",
             "&7   • &fɴᴀᴍᴇ: &bʜʏᴛɪᴄɪɴᴠ",
