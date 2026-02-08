@@ -6,15 +6,15 @@
 
     <groupId>dev.hytical</groupId>
     <artifactId>HyticInv</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <packaging>jar</packaging>
 
     <name>HyticInv</name>
 
     <properties>
         <java.version>21</java.version>
-        <kotlin.version>2.1.0</kotlin.version>
-        <coroutines.version>1.10.1</coroutines.version>
+        <kotlin.version>2.3.10</kotlin.version>
+        <coroutines.version>1.10.2</coroutines.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -51,7 +51,7 @@
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
                 <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>9.0.1</version>
+                <version>9.0.2</version>
                 <executions>
                     <execution>
                         <id>get-the-git-infos</id>
@@ -79,7 +79,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.5.3</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
