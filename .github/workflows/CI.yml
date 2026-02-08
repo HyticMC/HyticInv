@@ -35,9 +35,9 @@ jobs:
             echo "has_code_changes=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Build with Maven
+      - name: Build and Test with Maven
         if: steps.changes.outputs.has_code_changes == 'true'
-        run: mvn -B clean package --file pom.xml
+        run: mvn -B clean verify --file pom.xml
 
       - name: Upload build artifacts
         if: steps.changes.outputs.has_code_changes == 'true'

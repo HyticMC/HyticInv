@@ -32,7 +32,7 @@ import dev.hytical.utils.BuildInfo
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.plugin.java.JavaPlugin
 
-class HyticInv : JavaPlugin() {
+open class HyticInv : JavaPlugin() {
     private val pluginId: Int = 29351
     private var economyEnabled: Boolean = false
 

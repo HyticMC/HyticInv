@@ -126,6 +126,7 @@ target/HyticInv-*.jar
 - Skip tests: `mvn clean package -DskipTests`
 - Build only: `mvn compile`
 - Package without tests: `mvn package -DskipTests`
+- **Run tests**: `mvn test`
 
 ### Common Issues
 
