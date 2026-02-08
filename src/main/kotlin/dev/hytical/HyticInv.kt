@@ -81,6 +81,7 @@ class HyticInv : JavaPlugin() {
         messageManager = MessageManager(this, configManager)
 
         economyManager = EconomyManager(this)
+        economyManager.initialize()
 
         storageManager = StorageManager(this, configManager)
         if (!storageManager.initialize()) {
