@@ -1,6 +1,6 @@
 package dev.hytical.storages.impl
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import dev.hytical.managers.ConfigManager
 import dev.hytical.model.PlayerData
 import dev.hytical.storages.StorageBackend
@@ -15,7 +15,7 @@ import java.sql.ResultSet
 import java.util.*
 
 class SQLiteStorage(
-    private val plugin: HyticInv,
+    private val plugin: InsureInv,
     private val configManager: ConfigManager
 ) : StorageBackend {
 
@@ -46,7 +46,7 @@ class SQLiteStorage(
         connection?.createStatement()?.use { stmt ->
             stmt.executeUpdate(
                 """
-                CREATE TABLE IF NOT EXISTS hyticinv_players (
+                CREATE TABLE IF NOT EXISTS insureinv_players (
                     uuid TEXT PRIMARY KEY,
                     username TEXT NOT NULL,
                     charges INTEGER NOT NULL DEFAULT 0,
@@ -60,7 +60,7 @@ class SQLiteStorage(
 
             stmt.executeUpdate(
                 """
-                CREATE INDEX IF NOT EXISTS idx_username ON hyticinv_players(username)
+                CREATE INDEX IF NOT EXISTS idx_username ON insureinv_players(username)
             """.trimIndent()
             )
         }
@@ -73,7 +73,7 @@ class SQLiteStorage(
                     """
                 SELECT uuid, username, charges, protection_enabled, 
                        total_charges_purchased, protection_activations
-                FROM hyticinv_players WHERE uuid = ?
+                FROM insureinv_players WHERE uuid = ?
             """.trimIndent()
                 )?.use { stmt ->
                     stmt.setString(1, uuid.toString())
@@ -97,7 +97,7 @@ class SQLiteStorage(
             try {
                 connection?.prepareStatement(
                     """
-                INSERT INTO hyticinv_players (uuid, username, charges, protection_enabled, 
+                INSERT INTO insureinv_players (uuid, username, charges, protection_enabled, 
                                            total_charges_purchased, protection_activations)
                 VALUES (?, ?, ?, ?, ?, ?)
                 ON CONFLICT(uuid) DO UPDATE SET

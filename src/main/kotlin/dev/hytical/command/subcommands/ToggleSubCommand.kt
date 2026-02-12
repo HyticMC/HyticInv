@@ -1,12 +1,12 @@
 package dev.hytical.command.subcommands
 
 import dev.hytical.command.CommandContext
-import dev.hytical.command.HyticSubCommand
+import dev.hytical.command.InsureInvSubCommand
 import dev.hytical.utils.PlaceholderUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
-class ToggleSubCommand : HyticSubCommand {
+class ToggleSubCommand : InsureInvSubCommand {
     override val name = "toggle"
     override val permission: String? = null
     override val requiresPlayer = false

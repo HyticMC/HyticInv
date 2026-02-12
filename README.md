@@ -1,6 +1,6 @@
-# HyticInv
+# InsureInv
 
-HyticInv is a robust inventory protection plugin for modern Minecraft servers (Paper, Spigot, and Folia). It allows players to safeguard their inventory upon death by consuming a "protection charge." These charges can be purchased using an in-game economy, creating a balanced and engaging server feature.
+InsureInv is a robust inventory protection plugin for modern Minecraft servers (Paper, Spigot, and Folia). It allows players to safeguard their inventory upon death by consuming a "protection charge." These charges can be purchased using an in-game economy, creating a balanced and engaging server feature.
 
 ## Features
 
@@ -15,34 +15,34 @@ HyticInv is a robust inventory protection plugin for modern Minecraft servers (P
 
 ## Installation
 
-1.  Download the latest release of `HyticInv.jar`.
+1.  Download the latest release of `InsureInv.jar`.
 2.  Place the `.jar` file into your server's `/plugins` directory.
 3.  Ensure you have **Vault** and a compatible economy plugin (like EssentialsX) installed.
 4.  (Optional) Install **PlaceholderAPI** for placeholder support.
 5.  Start or restart your server.
-6.  Customize the generated `config.yml` file in `/plugins/HyticInv/` to your liking.
+6.  Customize the generated `config.yml` file in `/plugins/InsureInv/` to your liking.
 
 ## Commands
 
-HyticInv uses the base command `/hyticinv` (aliases: `/inv`, `/hinv`).
+InsureInv uses the base command `/insureinv` (aliases: `/inv`, `/hinv`).
 
 | Command                       | Description                                            | Permission       |
 | :---------------------------- | :----------------------------------------------------- | :--------------- |
-| `/hyticinv buy <amount>`      | Purchase a specified amount of protection charges.     | `hyticinv.use`   |
-| `/hyticinv toggle`            | Enable or disable your inventory protection.           | `hyticinv.use`   |
-| `/hyticinv info`              | View your current protection charges and status.       | `hyticinv.use`   |
-| `/hyticinv help [page]`       | Displays the help menu.                                | `hyticinv.use`   |
-| `/hyticinv reload`            | Reloads the plugin configuration.                      | `hyticinv.admin` |
-| `/hyticinv set <player> <amount>`| Set a player's protection charges to a specific amount. | `hyticinv.admin` |
-| `/hyticinv setprice <price>`  | Set the price for a single protection charge.          | `hyticinv.admin` |
-| `/hyticinv setmax <amount>`   | Set the maximum charges a player can hold.             | `hyticinv.admin` |
-| `/hyticinv toggle <player>`   | Toggle inventory protection for another player.        | `hyticinv.admin` |
-| `/hyticinv info <player>`     | View another player's protection charges and status.   | `hyticinv.admin` |
+| `/insureinv buy <amount>`      | Purchase a specified amount of protection charges.     | `hyticinv.use`   |
+| `/insureinv toggle`            | Enable or disable your inventory protection.           | `hyticinv.use`   |
+| `/insureinv info`              | View your current protection charges and status.       | `hyticinv.use`   |
+| `/insureinv help [page]`       | Displays the help menu.                                | `hyticinv.use`   |
+| `/insureinv reload`            | Reloads the plugin configuration.                      | `hyticinv.admin` |
+| `/insureinv set <player> <amount>`| Set a player's protection charges to a specific amount. | `hyticinv.admin` |
+| `/insureinv setprice <price>`  | Set the price for a single protection charge.          | `hyticinv.admin` |
+| `/insureinv setmax <amount>`   | Set the maximum charges a player can hold.             | `hyticinv.admin` |
+| `/insureinv toggle <player>`   | Toggle inventory protection for another player.        | `hyticinv.admin` |
+| `/insureinv info <player>`     | View another player's protection charges and status.   | `hyticinv.admin` |
 
 ## Permissions
 
-*   `hyticinv.use` - Grants access to basic user commands (`/buy`, `/toggle`, `/info`, `/help`). (Default: `true`)
-*   `hyticinv.admin` - Grants access to all administrative commands and the ability to manage other players. (Default: `op`)
+*   `insureinv.use` - Grants access to basic user commands (`/buy`, `/toggle`, `/info`, `/help`). (Default: `true`)
+*   `insureinv.admin` - Grants access to all administrative commands and the ability to manage other players. (Default: `op`)
 
 ## Configuration
 
@@ -78,7 +78,7 @@ This plugin uses [bStats](https://bstats.org/) to collect anonymous usage statis
 
 **To disable metrics collection:**
 
-1. Open `plugins/HyticInv/config.yml`
+1. Open `plugins/InsureInv/config.yml`
 2. Find the metrics section:
 ```yaml
 metrics:
@@ -97,8 +97,8 @@ metrics:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/HyticMC/HyticInv.git
-cd HyticInv
+git clone https://github.com/HyticMC/InsureInv.git
+cd InsureInv
 ```
 
 ### 2. Build with Maven
@@ -112,7 +112,7 @@ mvn clean package
 The compiled plugin JAR file will be generated in:
 
 ```
-target/HyticInv-*.jar
+target/InsureInv-*.jar
 ```
 
 ### 4. Install to server

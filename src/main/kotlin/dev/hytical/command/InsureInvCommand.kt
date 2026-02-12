@@ -1,6 +1,6 @@
 package dev.hytical.command
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import dev.hytical.command.subcommands.*
 import dev.hytical.economy.EconomyManager
 import dev.hytical.managers.ConfigManager
@@ -12,15 +12,15 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabCompleter
 import org.bukkit.entity.Player
 
-class HyticInvCommand(
-    private val plugin: HyticInv,
+class InsureInvCommand(
+    private val plugin: InsureInv,
     private val configManager: ConfigManager,
     private val storageManager: StorageManager,
     private val economyManager: EconomyManager,
     private val messageManager: MessageManager
 ) : CommandExecutor, TabCompleter {
 
-    private val subcommands: Map<String, HyticSubCommand>
+    private val subcommands: Map<String, InsureInvSubCommand>
 
     init {
         subcommands = buildMap {
@@ -32,7 +32,7 @@ class HyticInvCommand(
             put("setmax", SetMaxSubCommand())
             put("reload", ReloadSubCommand())
             put("help", HelpSubCommand { subcommands })
-            put("version", HyticVersion(plugin))
+            put("version", VersionCommand(plugin))
         }
     }
 
@@ -112,5 +112,5 @@ class HyticInvCommand(
         }
     }
 
-    fun getSubcommands(): Map<String, HyticSubCommand> = subcommands
+    fun getSubcommands(): Map<String, InsureInvSubCommand> = subcommands
 }

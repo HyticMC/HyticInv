@@ -1,5 +1,5 @@
 /*
- * HyticInv - A Minecraft inventory economy plugin
+ * InsureInv - A Minecraft inventory economy plugin
  * Copyright (C) 2024  HyticMC
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,7 @@
 
 package dev.hytical
 
-import dev.hytical.command.HyticInvCommand
+import dev.hytical.command.InsureInvCommand
 import dev.hytical.economy.EconomyManager
 import dev.hytical.listeners.PlayerDeath
 import dev.hytical.managers.ConfigManager
@@ -32,9 +32,8 @@ import dev.hytical.utils.BuildInfo
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.plugin.java.JavaPlugin
 
-open class HyticInv : JavaPlugin() {
+open class InsureInv : JavaPlugin() {
     private val pluginId: Int = 29351
-    private var economyEnabled: Boolean = false
 
     lateinit var buildInfo: BuildInfo
         private set
@@ -55,7 +54,7 @@ open class HyticInv : JavaPlugin() {
         val serverType = EnvironmentDetector.detect()
         if (serverType == ServerType.SPIGOT || serverType == ServerType.UNKNOWN) {
             logger.severe("═══════════════════════════════════════════════════════════════")
-            logger.severe("HyticInv requires Paper or Folia to run.")
+            logger.severe("InsureInv requires Paper or Folia to run.")
             logger.severe("Spigot and other server software are not supported.")
             logger.severe("Please upgrade to Paper: https://papermc.io/downloads/paper")
             logger.severe("═══════════════════════════════════════════════════════════════")
@@ -93,7 +92,7 @@ open class HyticInv : JavaPlugin() {
         registerCommands()
         registerEvents()
 
-        logger.info("HyticInv v${this.pluginMeta.version} enabled successfully!")
+        logger.info("InsureInv v${this.pluginMeta.version} enabled successfully!")
         sendStartupLog()
     }
 
@@ -106,11 +105,11 @@ open class HyticInv : JavaPlugin() {
             messageManager.shutdown()
         }
 
-        logger.info("HyticInv disabled.")
+        logger.info("InsureInv disabled.")
     }
 
     private fun registerCommands() {
-        val commandHandler = HyticInvCommand(
+        val commandHandler = InsureInvCommand(
             this,
             configManager,
             storageManager,
@@ -118,7 +117,7 @@ open class HyticInv : JavaPlugin() {
             messageManager
         )
 
-        getCommand("hyticinv")?.apply {
+        getCommand("insureinv")?.apply {
             setExecutor(commandHandler)
             tabCompleter = commandHandler
         }
@@ -126,7 +125,6 @@ open class HyticInv : JavaPlugin() {
 
     private fun registerEvents() {
         val playerDeath = PlayerDeath(
-            this,
             configManager,
             storageManager,
             messageManager
@@ -136,12 +134,12 @@ open class HyticInv : JavaPlugin() {
     }
 
     private fun sendStartupLog() {
-        val log = listOf(
+        listOf(
             "",
-            " &bʜʏᴛɪᴄɪɴᴠ &7ᴠ${buildInfo.buildVersion}",
+            " &b${buildInfo.getPluginName(true)} &7ᴠ${buildInfo.buildVersion}",
             " &8--------------------------------------",
             " &cɪɴꜰᴏʀᴍᴀᴛɪᴏɴ",
-            "&7   • &fɴᴀᴍᴇ: &bʜʏᴛɪᴄɪɴᴠ",
+            "&7   • &fɴᴀᴍᴇ: &b${buildInfo.getPluginName(true)}",
             "&7   • &fᴀᴜᴛʜᴏʀ: &bʜʏᴛɪᴄᴍᴄ",
             " &8--------------------------------------",
             ""

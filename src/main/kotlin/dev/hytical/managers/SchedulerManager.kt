@@ -2,14 +2,14 @@ package dev.hytical.managers
 
 import com.tcoded.folialib.FoliaLib
 import com.tcoded.folialib.wrapper.task.WrappedTask
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import org.bukkit.Location
 import org.bukkit.entity.Entity
 import java.util.concurrent.CompletableFuture
 import java.util.function.Consumer
 
 @Suppress("DEPRECATION")
-class SchedulerManager(plugin: HyticInv) {
+class SchedulerManager(plugin: InsureInv) {
     private val foliaLib = FoliaLib(plugin)
 
     val isFolia: Boolean

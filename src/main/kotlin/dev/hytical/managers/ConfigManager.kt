@@ -1,13 +1,13 @@
 package dev.hytical.managers
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import dev.hytical.economy.EconomyProviderType
 import dev.hytical.storages.StorageType
 import org.bukkit.configuration.file.FileConfiguration
 
 @Suppress("unused")
 class ConfigManager(
-    private val plugin: HyticInv
+    private val plugin: InsureInv
 ) {
     private var config: FileConfiguration = plugin.config
 

@@ -1,10 +1,10 @@
 package dev.hytical.economy
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import org.bukkit.OfflinePlayer
 
 class EconomyManager(
-    private val plugin: HyticInv
+    private val plugin: InsureInv
 ) {
     private lateinit var provider: EconomyProvider
 

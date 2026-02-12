@@ -1,12 +1,12 @@
 package dev.hytical.utils
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class BuildInfo(private val plugin: HyticInv) {
+class BuildInfo(private val plugin: InsureInv) {
 
     data class GitInfo(
         val commitIdAbbrev: String,
@@ -83,6 +83,10 @@ class BuildInfo(private val plugin: HyticInv) {
         "buildTime" to buildTime,
         "isDirty" to isDirty
     )
+
+    fun getPluginName(fancy: Boolean): String {
+        return if (!fancy) plugin.pluginMeta.name else "ɪɴѕᴜʀᴇɪɴᴠ"
+    }
 
     fun toJson(): String =
         toMap().entries.joinToString(prefix = "{", postfix = "}") { "\"${it.key}\":\"${it.value}\"" }

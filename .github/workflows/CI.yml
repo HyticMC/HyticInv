@@ -50,7 +50,7 @@ jobs:
         if: steps.changes.outputs.has_code_changes == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: HyticInv-CI.jar
+          name: InsureInv-CI.jar
           path: target/*.jar
           
       - name: Skip build notice

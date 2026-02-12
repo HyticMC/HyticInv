@@ -1,6 +1,6 @@
 package dev.hytical.storages
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import dev.hytical.managers.ConfigManager
 import dev.hytical.model.PlayerData
 import dev.hytical.storages.impl.JsonStorage
@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.Duration.Companion.seconds
 
 class StorageManager(
-    private val plugin: HyticInv,
+    private val plugin: InsureInv,
     private val configManager: ConfigManager
 ) {
     private var currentBackend: StorageBackend? = null

@@ -1,6 +1,6 @@
 package dev.hytical.messaging
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import dev.hytical.managers.ConfigManager
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.minimessage.MiniMessage
@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
 class MessageManager(
-    private val plugin: HyticInv,
+    private val plugin: InsureInv,
     private val configManager: ConfigManager
 ) {
     private val miniMessage: MiniMessage = MiniMessage.miniMessage()

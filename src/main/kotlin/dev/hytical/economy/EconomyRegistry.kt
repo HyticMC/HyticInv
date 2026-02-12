@@ -1,10 +1,10 @@
 package dev.hytical.economy
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import java.util.logging.Logger
 
 class EconomyRegistry(
-    private val plugin: HyticInv
+    private val plugin: InsureInv
 ) {
     private val logger: Logger = plugin.logger
     private val config = plugin.configManager

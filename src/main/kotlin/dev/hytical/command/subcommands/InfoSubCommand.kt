@@ -1,13 +1,13 @@
 package dev.hytical.command.subcommands
 
 import dev.hytical.command.CommandContext
-import dev.hytical.command.HyticSubCommand
+import dev.hytical.command.InsureInvSubCommand
 import dev.hytical.utils.PlaceholderUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-class InfoSubCommand : HyticSubCommand {
+class InfoSubCommand : InsureInvSubCommand {
     override val name = "info"
     override val permission: String? = null
     override val requiresPlayer = false

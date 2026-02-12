@@ -2,7 +2,7 @@ package dev.hytical.command
 
 import org.bukkit.command.CommandSender
 
-interface HyticSubCommand {
+interface InsureInvSubCommand {
     val name: String
     val permission: String?
     val requiresPlayer: Boolean

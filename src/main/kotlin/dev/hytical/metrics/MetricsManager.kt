@@ -1,6 +1,6 @@
 package dev.hytical.metrics
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import org.bstats.bukkit.Metrics
 import org.bstats.charts.DrilldownPie
 import org.bstats.charts.SimplePie
@@ -8,7 +8,7 @@ import org.bukkit.Bukkit
 import java.util.concurrent.atomic.AtomicBoolean
 
 class MetricsManager(
-    private val plugin: HyticInv,
+    private val plugin: InsureInv,
     private val pluginId: Int
 ) {
     private val started = AtomicBoolean(false)

@@ -1,6 +1,6 @@
 package dev.hytical.command
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import dev.hytical.economy.EconomyManager
 import dev.hytical.managers.ConfigManager
 import dev.hytical.messaging.MessageManager
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player
 data class CommandContext(
     val sender: CommandSender,
     val args: Array<String>,
-    val plugin: HyticInv,
+    val plugin: InsureInv,
     val configManager: ConfigManager,
     val storageManager: StorageManager,
     val economyManager: EconomyManager,

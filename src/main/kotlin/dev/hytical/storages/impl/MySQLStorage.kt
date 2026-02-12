@@ -2,7 +2,7 @@ package dev.hytical.storages.impl
 
 import com.zaxxer.hikari.HikariConfig
 import com.zaxxer.hikari.HikariDataSource
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import dev.hytical.managers.ConfigManager
 import dev.hytical.model.PlayerData
 import dev.hytical.storages.StorageBackend
@@ -13,7 +13,7 @@ import java.sql.ResultSet
 import java.util.*
 
 class MySQLStorage(
-    private val plugin: HyticInv,
+    private val plugin: InsureInv,
     private val configManager: ConfigManager
 ) : StorageBackend {
 
@@ -45,7 +45,7 @@ class MySQLStorage(
                 addDataSourceProperty("elideSetAutoCommits", "true")
                 addDataSourceProperty("maintainTimeStats", "false")
 
-                poolName = "HyticInv-MySQL-Pool"
+                poolName = "InsureInv-MySQL-Pool"
             }
 
             dataSource = HikariDataSource(config)
@@ -64,7 +64,7 @@ class MySQLStorage(
             conn.createStatement().use { stmt ->
                 stmt.executeUpdate(
                     """
-                    CREATE TABLE IF NOT EXISTS hyticinv_players (
+                    CREATE TABLE IF NOT EXISTS insureinv_players (
                         uuid VARCHAR(36) PRIMARY KEY,
                         username VARCHAR(16) NOT NULL,
                         charges INT NOT NULL DEFAULT 0,
@@ -91,7 +91,7 @@ class MySQLStorage(
                     """
                     SELECT uuid, username, charges, protection_enabled, 
                            total_charges_purchased, protection_activations
-                    FROM hyticinv_players WHERE uuid = ?
+                    FROM insureinv_players WHERE uuid = ?
                 """.trimIndent()
                 ).use { stmt ->
                     stmt.setString(1, uuid.toString())
@@ -115,7 +115,7 @@ class MySQLStorage(
             getConnection().use { conn ->
                 conn.prepareStatement(
                     """
-                    INSERT INTO hyticinv_players (uuid, username, charges, protection_enabled, 
+                    INSERT INTO insureinv_players (uuid, username, charges, protection_enabled, 
                                                 total_charges_purchased, protection_activations)
                     VALUES (?, ?, ?, ?, ?, ?)
                     ON DUPLICATE KEY UPDATE

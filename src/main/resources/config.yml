@@ -1,4 +1,4 @@
-# HyticInv Configuration
+# InsureInv Configuration
 
 storage:
   method: sqlite
@@ -6,7 +6,7 @@ storage:
   mysql:
     host: localhost
     port: 3306
-    database: hyticinv
+    database: insureinv
     username: root
     password: password
     pool:
@@ -30,7 +30,7 @@ economy:
 
 messages:
   enable-prefix: false
-  prefix: "<gradient:#00d4ff:#0099ff><bold>[HyticInv]</bold></gradient> <dark_gray>»</dark_gray> <white>"
+  prefix: "<gradient:#00d4ff:#0099ff><bold>[InsureInv]</bold></gradient> <dark_gray>»</dark_gray> <white>"
   
   # Purchase
   buy-success: "<color:#99ff94>✔</color> <white>Success <dark_gray>▪ <white>Purchased <color:#99ff94>{amount}</color> charge(s) for <color:#99ff94>${price}</color>! You have <color:#99ff94>{charges}</color>/{max} charges remaining."
@@ -81,7 +81,7 @@ messages:
   usage-setmax: "<gradient:#ff7817:#ffc46b>Usage: <color:#9ce8ff>/hyticinv setmax <amount></color></gradient>"
   
   # Help
-  help-header: "<gradient:#00d4ff:#0099ff>• HyticInv Help ({page}/{total})</gradient>"
+  help-header: "<gradient:#00d4ff:#0099ff>• InsureInv Help ({page}/{total})</gradient>"
   help-buy: "<dark_gray>▪ <color:#9ce8ff>/hyticinv buy <amount></color> <dark_gray>-</dark_gray> <white>Purchase inventory protection charges</white>"
   help-toggle: "<dark_gray>▪ <color:#9ce8ff>/hyticinv toggle [player]</color> <dark_gray>-</dark_gray> <white>Enable/disable inventory protection</white>"
   help-info: "<dark_gray>▪ <color:#9ce8ff>/hyticinv info [player]</color> <dark_gray>-</dark_gray> <white>View protection charges and status</white>"

@@ -1,23 +1,23 @@
 package dev.hytical.command.subcommands
 
-import dev.hytical.HyticInv
+import dev.hytical.InsureInv
 import dev.hytical.command.CommandContext
-import dev.hytical.command.HyticSubCommand
+import dev.hytical.command.InsureInvSubCommand
 import net.kyori.adventure.text.minimessage.MiniMessage
 import org.bukkit.command.CommandSender
 
-class HyticVersion(
-    private val plugin: HyticInv,
-) : HyticSubCommand {
+class VersionCommand(
+    private val plugin: InsureInv,
+) : InsureInvSubCommand {
     private val mm = MiniMessage.miniMessage()
     private val i = plugin.buildInfo
     override val name: String = "version"
-    override val permission: String = "hyticinv.admin"
+    override val permission: String = "insureinv.admin"
     override val requiresPlayer: Boolean = false
 
     override fun execute(context: CommandContext) {
         listOf(
-            "<white><color:#FFC0CB>${plugin.name} ${i.buildVersion}</color> <white>ʙʏ</white> <gray>${
+            "<white><color:#FFC0CB>${plugin.buildInfo.getPluginName(true)} ${i.buildVersion}</color> <white>ʙʏ</white> <gray>${
                 plugin.pluginMeta.authors.joinToString(
                     " and "
                 )

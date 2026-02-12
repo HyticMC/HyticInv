@@ -1,14 +1,14 @@
 package dev.hytical.command.subcommands
 
 import dev.hytical.command.CommandContext
-import dev.hytical.command.HyticSubCommand
+import dev.hytical.command.InsureInvSubCommand
 import dev.hytical.utils.PlaceholderUtil
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 
-class SetSubCommand : HyticSubCommand {
+class SetSubCommand : InsureInvSubCommand {
     override val name = "set"
-    override val permission = "hyticinv.admin"
+    override val permission = "insureinv.admin"
     override val requiresPlayer = false
 
     override fun execute(context: CommandContext) {

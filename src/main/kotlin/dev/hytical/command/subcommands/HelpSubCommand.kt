@@ -1,13 +1,13 @@
 package dev.hytical.command.subcommands
 
 import dev.hytical.command.CommandContext
-import dev.hytical.command.HyticSubCommand
+import dev.hytical.command.InsureInvSubCommand
 import dev.hytical.utils.PlaceholderUtil
 import org.bukkit.command.CommandSender
 
 class HelpSubCommand(
-    private val getSubcommands: () -> Map<String, HyticSubCommand>
-) : HyticSubCommand {
+    private val getSubcommands: () -> Map<String, InsureInvSubCommand>
+) : InsureInvSubCommand {
     override val name = "help"
     override val permission: String? = null
     override val requiresPlayer = false

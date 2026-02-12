@@ -1,6 +1,5 @@
 package dev.hytical.listeners
 
-import dev.hytical.HyticInv
 import dev.hytical.managers.ConfigManager
 import dev.hytical.messaging.MessageManager
 import dev.hytical.storages.StorageManager
@@ -11,7 +10,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.PlayerDeathEvent
 
 class PlayerDeath(
-    private val plugin: HyticInv,
     private val configManager: ConfigManager,
     private val storageManager: StorageManager,
     private val messageManager: MessageManager

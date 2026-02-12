@@ -1,6 +1,6 @@
 package dev.hytical.command;
 
-import dev.hytical.HyticInv;
+import dev.hytical.InsureInv;
 import dev.hytical.economy.EconomyManager;
 import dev.hytical.managers.ConfigManager;
 import dev.hytical.messaging.MessageManager;
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 @DisplayName("CommandContext Tests")
 class CommandContextTest {
 
-    private HyticInv mockPlugin;
+    private InsureInv mockPlugin;
     private ConfigManager mockConfigManager;
     private StorageManager mockStorageManager;
     private EconomyManager mockEconomyManager;
@@ -25,7 +25,7 @@ class CommandContextTest {
 
     @BeforeEach
     void setUp() {
-        mockPlugin = mock(HyticInv.class);
+        mockPlugin = mock(InsureInv.class);
         mockConfigManager = mock(ConfigManager.class);
         mockStorageManager = mock(StorageManager.class);
         mockEconomyManager = mock(EconomyManager.class);
